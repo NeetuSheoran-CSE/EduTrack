@@ -1,0 +1,17 @@
+import {Link} from 'react-router-dom';import {GraduationCap,CalendarCheck,Wallet,ClipboardList,Users,Check} from 'lucide-react';
+import {Card,Btn} from '../components/ui';
+const F=[[CalendarCheck,'Student Attendance',['Track daily attendance','Monitor attendance percentage','Class-wise attendance reports']],[Wallet,'Fee Management',['Record fee payments','Track pending fees','Generate payment receipts']],[ClipboardList,'Online Results',['Enter marks','Calculate grades','Generate report cards']],[Users,'Student Records',['Centralized student information','Class and section management','Academic history']]];
+export default function Landing(){return <div>
+  <header className="flex items-center justify-between px-4 sm:px-8 h-16 max-w-7xl mx-auto"><span className="flex items-center gap-2 font-extrabold text-brand text-lg"><GraduationCap className="text-clay" aria-hidden="true"/>EduTrack</span><nav className="flex gap-2"><a href="#features" className="hidden sm:inline-flex items-center min-h-[44px] px-3 text-sm font-semibold text-brand">Features</a><Link to="/login"><Btn>Login</Btn></Link></nav></header>
+  <section className="max-w-7xl mx-auto px-4 sm:px-8 py-10 lg:py-20 grid lg:grid-cols-2 gap-10 items-center">
+    <div><h1 className="text-4xl sm:text-5xl font-extrabold text-brand leading-tight">Smart School Management, Simplified.</h1>
+    <p className="mt-4 text-lg text-ink/80 max-w-lg">Manage attendance, fees, academic results and student records from one secure platform.</p>
+    <div className="mt-7 flex flex-wrap gap-3"><Link to="/login"><Btn>Get Started</Btn></Link><a href="#features"><Btn k="o">Explore Features</Btn></a></div>
+    <p className="mt-8 text-sm font-semibold text-olive">Built for Schools • Teachers • Administrators • Students</p></div>
+    <Card className="p-4 sm:p-5" aria-hidden="true"><div className="flex items-center justify-between mb-4"><span className="font-bold text-brand">Today at a glance</span><span className="text-xs text-ink/60">30 Sep 2026</span></div>
+      <div className="grid grid-cols-2 gap-3">{[['Attendance','94%','bg-brand text-white'],['Fees collected','₹8.1L','bg-white border border-ink/10'],['Results published','5 classes','bg-white border border-ink/10'],['Top performer','Aarav S. · A+','bg-gold/25']].map(([a,b,c])=><div key={a} className={`rounded-xl p-3 ${c}`}><p className="text-xs opacity-80">{a}</p><p className="font-bold text-lg">{b}</p></div>)}</div>
+      <div className="mt-4 flex items-end gap-2 h-28 border-t border-ink/10 pt-3">{[70,85,60,92,78,88].map((h,i)=><div key={i} className="flex-1 rounded-t-md" style={{height:h+'%',background:i===3?'#C56B4F':'#718B72'}}/>)}</div></Card>
+  </section>
+  <section id="features" className="bg-white border-y border-ink/10"><div className="max-w-7xl mx-auto px-4 sm:px-8 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    {F.map(([I,t,l])=><Card key={t} className="p-5 hover:-translate-y-0.5 transition-transform"><span className="grid place-items-center w-11 h-11 rounded-xl bg-brand/10 text-brand"><I size={20} aria-hidden="true"/></span><h2 className="mt-4 font-bold text-brand">{t}</h2><ul className="mt-2 space-y-2 text-sm">{l.map(x=><li key={x} className="flex gap-2"><Check size={16} className="text-olive shrink-0 mt-0.5" aria-hidden="true"/>{x}</li>)}</ul></Card>)}</div></section>
+  <footer className="text-center text-sm text-ink/70 py-8">© 2026 EduTrack. Secure, role-based school administration.</footer></div>}

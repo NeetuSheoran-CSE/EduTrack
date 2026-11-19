@@ -1,0 +1,9 @@
+import {useState} from 'react';import {useForm} from 'react-hook-form';import {Plus} from 'lucide-react';import {Btn,PageHead,Modal,Field,inputCls,DataTable,useToast} from '../components/ui';import {useStore} from '../context/Store';
+export default function Classes(){const toast=useToast();const {classes,teachers,students,assignTeacher,addClass}=useStore();const [open,setOpen]=useState(false);const {register,handleSubmit,formState:{errors}}=useForm({defaultValues:{teacher:teachers[0]?.name}});
+  const cols=[{h:'Class',r:c=>c.name.split('-')[0]},{h:'Section',r:c=>c.name.split('-')[1]},{h:'Students',r:c=>students.filter(s=>s.cls===c.name).length},
+  {h:'Class Teacher',r:c=><select aria-label={`Class teacher for ${c.name}`} value={c.teacher} onChange={e=>{assignTeacher(c.name,e.target.value);toast('Class teacher updated')}} className={inputCls+' min-w-[180px]'}>{teachers.map(t=><option key={t.id}>{t.name}</option>)}</select>}];
+  return <><PageHead title="Classes & Sections" sub={`${classes.length} sections`}><Btn icon={Plus} onClick={()=>setOpen(true)}>Add Class</Btn></PageHead>
+  <DataTable cols={cols} rows={classes.map(c=>({...c,id:c.name}))}/>
+  {open&&<Modal title="Add Class" onClose={()=>setOpen(false)}><form onSubmit={handleSubmit(d=>{if(classes.some(c=>c.name===d.name))return toast('That class already exists');addClass(d);toast('Class added');setOpen(false)})}>
+    <Field label="Class-Section (e.g. 10-B)"><input className={inputCls} {...register('name',{required:true,pattern:/^\d{1,2}-[A-Z]$/})}/>{errors.name&&<span role="alert" className="text-xs text-clay-dark">Use the format 10-B</span>}</Field>
+    <Field label="Class teacher"><select className={inputCls} {...register('teacher')}>{teachers.map(t=><option key={t.id}>{t.name}</option>)}</select></Field><Btn type="submit" className="w-full">Add class</Btn></form></Modal>}</>}
