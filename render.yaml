@@ -1,11 +1,25 @@
 services:
+  # Website (React + Vite) — static site, free, no sleep
+  - type: web
+    name: edutrack
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    routes:
+      # SPA: let React Router handle /dashboard, /students, etc.
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # API (Node + Express + MongoDB)
   - type: web
     name: edutrack-api
     runtime: node
     plan: free
     region: singapore
     rootDir: backend
-    buildCommand: npm install
+    buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:

@@ -16,6 +16,19 @@ cd frontend && npm install && npm run dev    # http://localhost:5173
 The UI currently runs on built-in demo data so every screen works without the server.
 `frontend/src/services/api.js` already maps to every backend route for the next step (swap Store actions for API calls).
 
+## Deploy on Render
+
+Use the Blueprint (`render.yaml`), which creates both services:
+
+| Service | Type | Root directory | Build | Publish / Start |
+| --- | --- | --- | --- | --- |
+| `edutrack` | Static site | `frontend` | `npm ci && npm run build` | publish `dist` |
+| `edutrack-api` | Web service (free) | `backend` | `npm ci` | `npm start` |
+
+The static site needs the SPA rewrite `/*` → `/index.html` (already in `render.yaml`), otherwise refreshing `/dashboard` returns 404.
+
+When creating the Blueprint, fill `MONGO_URI` (MongoDB Atlas) and `CLIENT_URL` (the static site URL, e.g. `https://edutrack.onrender.com`). In Atlas, add `0.0.0.0/0` under Network Access or Render cannot reach the database and the API deploy fails.
+
 ## API (all under /api, JWT bearer token except login)
 - POST /auth/login · GET /auth/me · PUT /auth/profile · PUT /auth/password
 - GET/POST /students · GET/PUT/DELETE /students/:id (teachers see only assigned classes, students only themselves)
